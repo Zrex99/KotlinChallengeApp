@@ -1,10 +1,8 @@
-package com.ortizzakarie.androidkotlinchallenge
+package com.ortizzakarie.androidkotlinchallenge.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.ortizzakarie.androidkotlinchallenge.data.remote.api.ImageService
-import com.ortizzakarie.androidkotlinchallenge.di.module.ImageApiModule
-import kotlinx.coroutines.CoroutineScope
+import com.ortizzakarie.androidkotlinchallenge.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
