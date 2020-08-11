@@ -15,6 +15,7 @@ import com.ortizzakarie.androidkotlinchallenge.ui.base.BaseActivity
 import com.ortizzakarie.androidkotlinchallenge.ui.main.adapter.ImageListAdapter
 import com.ortizzakarie.androidkotlinchallenge.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 /**
@@ -35,13 +36,14 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(mViewBinding.root)
 
         //Init the RecyclerView
-        mViewBinding.imagesRecylerView.apply {
+        mViewBinding.imagesRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = mAdapter
         }
+
 
         //Init the images
         initImages()
@@ -64,10 +66,12 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
                     is State.Success -> {
                         if (state.data.isNotEmpty()) {
                             mAdapter.submitList(state.data.toMutableList())
+                            showToast("Loading done")
                             Log.i(TAG, "initImages: Loading done")
                         }
                     }
                     is State.Error -> {
+                        Log.i(TAG, "initImages: Loading failed")
                         showToast(state.message)
                     }
                 }
@@ -81,10 +85,11 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
     }
 
     private fun getImages() {
+        Log.i(TAG, "getImages: getting images")
         mViewModel.getImages()
     }
 
-    private fun onItemClicked(image: Image, imageView: ImageView) {
+    private fun onItemClicked(image: Image) {
         //TODO: Need intent to open browser to view image?
         Log.i(TAG, "onItemClicked: image title: ${image.title} \nimage url: ${image.url}")
     }

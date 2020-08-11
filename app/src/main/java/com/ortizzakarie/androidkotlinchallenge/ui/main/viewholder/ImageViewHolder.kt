@@ -1,5 +1,6 @@
 package com.ortizzakarie.androidkotlinchallenge.ui.main.viewholder
 
+import android.util.Log
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
@@ -14,7 +15,8 @@ import com.ortizzakarie.androidkotlinchallenge.ui.main.adapter.ImageListAdapter
  */
 class ImageViewHolder(private val binding: ItemImageBinding) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(image: Image, onItemClicked: (Image, ImageView) -> Unit) {
+    fun bind(image: Image, onItemClicked: (Image) -> Unit) {
+        Log.i("ViewHolder", "bind: BINDED IMAGE #${image.id}")
         binding.imageTitle.text = image.title
         binding.image.load(image.url) {
             placeholder(R.drawable.ic_photo)
@@ -22,7 +24,7 @@ class ImageViewHolder(private val binding: ItemImageBinding) : RecyclerView.View
         }
 
         binding.root.setOnClickListener {
-            onItemClicked(image, binding.image)
+            onItemClicked(image)
         }
     }
 }

@@ -20,6 +20,4 @@ class ImagesDatabaseModule {
     @Provides
     fun provideImageDao(database: ImagesDatabase) = database.getImageDao()
 
-
-
 }

@@ -15,7 +15,7 @@ import com.ortizzakarie.androidkotlinchallenge.ui.main.viewholder.ImageViewHolde
  * @param onItemClicked which will receive callback when item is clicked.
  */
 class ImageListAdapter(
-    private val onItemClicked: (Image, ImageView) -> Unit
+    private val onItemClicked: (Image) -> Unit
 ) : ListAdapter<Image, ImageViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ImageViewHolder(
@@ -30,7 +30,7 @@ class ImageListAdapter(
         holder.bind(getItem(position), onItemClicked)
 
     interface OnItemClickListener {
-        fun onItemClicked(image: Image, imageView: ImageView)
+        fun onItemClicked(image: Image)
     }
 
     companion object {
