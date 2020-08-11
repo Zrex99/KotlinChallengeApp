@@ -1,5 +1,7 @@
 package com.ortizzakarie.androidkotlinchallenge.ui.main
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
@@ -27,9 +29,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
 
-
-    //TODO: Create the database class and the Database Module so i can actually provide the imageDao.
-
     override val mViewModel: MainViewModel by viewModels()
 
     private val mAdapter = ImageListAdapter(this::onItemClicked)
@@ -38,14 +37,13 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
         super.onCreate(savedInstanceState)
         setContentView(mViewBinding.root)
 
-        //Init the RecyclerView
+        //Initialize the RecyclerView
         mViewBinding.imagesRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = mAdapter
         }
-
-
-        //Init the images
+        
+        //Initialize the images
         initImages()
     }
 
@@ -67,11 +65,9 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
                         if (state.data.isNotEmpty()) {
                             mAdapter.submitList(state.data.toMutableList())
                             showToast("Loading done")
-                            Log.i(TAG, "initImages: Loading done")
                         }
                     }
                     is State.Error -> {
-                        Log.i(TAG, "initImages: Loading failed")
                         showToast(state.message)
                     }
                 }
@@ -85,13 +81,18 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
     }
 
     private fun getImages() {
-        Log.i(TAG, "getImages: getting images")
         mViewModel.getImages()
     }
 
+
+    /**
+     * [onItemClicked] will take the user to view the image clicked on the device browser.
+     * @param [image] is the Image that was clicked on by the user and the data object that holds the url for viewing.
+     */
     private fun onItemClicked(image: Image) {
-        //TODO: Need intent to open browser to view image?
-        Log.i(TAG, "onItemClicked: image title: ${image.title} \nimage url: ${image.url}")
+        val openUrl = Intent(Intent.ACTION_VIEW)
+        openUrl.data = Uri.parse(image.url)
+        startActivity(openUrl)
     }
 
     companion object {
