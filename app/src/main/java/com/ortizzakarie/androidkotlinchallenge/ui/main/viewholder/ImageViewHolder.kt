@@ -1,5 +1,6 @@
 package com.ortizzakarie.androidkotlinchallenge.ui.main.viewholder
 
+import android.content.res.Configuration
 import android.util.Log
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView

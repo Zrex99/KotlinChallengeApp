@@ -1,22 +1,29 @@
 package com.ortizzakarie.androidkotlinchallenge.ui.main
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.Display
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.ortizzakarie.androidkotlinchallenge.R
 import com.ortizzakarie.androidkotlinchallenge.databinding.ActivityMainBinding
 import com.ortizzakarie.androidkotlinchallenge.model.Image
 import com.ortizzakarie.androidkotlinchallenge.model.State
 import com.ortizzakarie.androidkotlinchallenge.ui.base.BaseActivity
 import com.ortizzakarie.androidkotlinchallenge.ui.main.adapter.ImageListAdapter
+import com.ortizzakarie.androidkotlinchallenge.utils.NetworkUtils
 import com.ortizzakarie.androidkotlinchallenge.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -31,7 +38,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
 
     override val mViewModel: MainViewModel by viewModels()
 
-    private val mAdapter = ImageListAdapter(this::onItemClicked)
+    private var mAdapter = ImageListAdapter(this::onItemClicked)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,9 +49,11 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = mAdapter
         }
-        
+
         //Initialize the images
         initImages()
+
+        handleNetworkChanges()
     }
 
     /**
@@ -64,7 +73,6 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
                     is State.Success -> {
                         if (state.data.isNotEmpty()) {
                             mAdapter.submitList(state.data.toMutableList())
-                            showToast("Loading done")
                         }
                     }
                     is State.Error -> {
@@ -84,6 +92,23 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
         mViewModel.getImages()
     }
 
+    /**
+     * Observe for changes in internet connectivity.
+     */
+    private fun handleNetworkChanges() {
+        NetworkUtils.getNetworkLiveData(applicationContext).observe(
+            this,
+            Observer { isConnected ->
+                if(!isConnected) {
+                    showToast("Network Connection Lost.", Toast.LENGTH_LONG)
+                } else {
+                    if(mViewModel.imagesLiveData.value is State.Error || mAdapter.itemCount == 0) {
+                        getImages()
+                    }
+                }
+            }
+        )
+    }
 
     /**
      * [onItemClicked] will take the user to view the image clicked on the device browser.
