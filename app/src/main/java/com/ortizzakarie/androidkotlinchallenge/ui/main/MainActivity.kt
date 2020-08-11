@@ -1,20 +1,12 @@
 package com.ortizzakarie.androidkotlinchallenge.ui.main
 
 import android.content.Intent
-import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import android.view.Display
-import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.ortizzakarie.androidkotlinchallenge.R
 import com.ortizzakarie.androidkotlinchallenge.databinding.ActivityMainBinding
 import com.ortizzakarie.androidkotlinchallenge.model.Image
 import com.ortizzakarie.androidkotlinchallenge.model.State
@@ -23,8 +15,6 @@ import com.ortizzakarie.androidkotlinchallenge.ui.main.adapter.ImageListAdapter
 import com.ortizzakarie.androidkotlinchallenge.utils.NetworkUtils
 import com.ortizzakarie.androidkotlinchallenge.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 /**
@@ -118,9 +108,5 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
         val openUrl = Intent(Intent.ACTION_VIEW)
         openUrl.data = Uri.parse(image.url)
         startActivity(openUrl)
-    }
-
-    companion object {
-        private const val TAG = "MainActivity"
     }
 }

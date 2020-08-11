@@ -16,7 +16,7 @@ abstract class ImagesDatabase : RoomDatabase() {
     abstract fun getImageDao(): ImageDao
 
     companion object {
-        const val DB_NAME = "image_database"
+        private const val DB_NAME = "image_database"
 
         @Volatile
         private var INSTANCE: ImagesDatabase? = null

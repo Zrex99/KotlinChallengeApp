@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.*
 import retrofit2.Response
 import java.lang.Exception
 
+//TODO: Make this below comment green.
 //This repository will provide the resources from the local db as well as the remote API.
 // RESULT is the type for the database.
 // REQUEST is the type for the network.
@@ -32,16 +33,16 @@ abstract class NetworkBoundRepository<RESULT, REQUEST> {
             if(apiResponse.isSuccessful && remoteData != null) {
                 saveRemoteData(remoteData)
             } else {
-                //Error occured, emit state.
+                //Error occurred, emit state.
                 emit(State.error(apiResponse.message()))
             }
         } catch (e: Exception) {
-            //Exception occured, use the State.error to emit an error.
+            //Exception occurred, use the State.error to emit an error.
             emit(State.error("Network error! Can't reach servers."))
             e.printStackTrace()
         }
 
-        //Retrieve daata from persistence/local storage and emit
+        //Retrieve data from persistence/local storage and emit
         emitAll(
             fetchFromLocal().map {
                 State.success<RESULT>(it)

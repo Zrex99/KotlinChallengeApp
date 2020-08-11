@@ -2,16 +2,16 @@ package com.ortizzakarie.androidkotlinchallenge.ui.main.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.ortizzakarie.androidkotlinchallenge.databinding.ItemImageBinding
 import com.ortizzakarie.androidkotlinchallenge.model.Image
 import com.ortizzakarie.androidkotlinchallenge.ui.main.viewholder.ImageViewHolder
 
 /**
- * Adapter class [RecyclerView.Adapter] for [RecyclerView] which binds [Image] along with [ImageViewHolder]
+ * Adapter class [ListAdapter] for [RecyclerView] which binds [Image] along with [ImageViewHolder]
  * @param onItemClicked which will receive callback when item is clicked.
  */
 class ImageListAdapter(
