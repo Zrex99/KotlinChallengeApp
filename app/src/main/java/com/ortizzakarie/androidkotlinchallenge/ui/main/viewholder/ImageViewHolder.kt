@@ -11,20 +11,23 @@ import com.ortizzakarie.androidkotlinchallenge.ui.main.adapter.ImageListAdapter
 
 /**
  * [RecyclerView.ViewHolder] implementation to inflate View for RecyclerView.
+ * Only the [ImageView] that displays the [Image] will have an onClickListener for viewing the image on the device browser.
  * See [ImageListAdapter]
  */
 class ImageViewHolder(private val binding: ItemImageBinding) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(image: Image, onItemClicked: (Image) -> Unit) {
-        Log.i("ViewHolder", "bind: BINDED IMAGE #${image.id}")
         binding.imageTitle.text = image.title
         binding.image.load(image.url) {
             placeholder(R.drawable.ic_photo)
             error(R.drawable.ic_broken_image)
         }
 
-        binding.root.setOnClickListener {
+        //Set the onClickListener for the image only.
+        binding.image.setOnClickListener {
             onItemClicked(image)
         }
+
+        binding.imageTitle.setTextIsSelectable(true)
     }
 }
